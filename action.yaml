@@ -1,4 +1,4 @@
-name: "HCL-update"
+name: "hcledit update"
 description: "Use hcledit tool to make required changes and open PR"
 inputs:
   token:
