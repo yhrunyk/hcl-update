@@ -1,0 +1,58 @@
+name: "HCL Update"
+description: "Use hcledit tool to make required changes and open PR"
+inputs:
+  token:
+    description: "An Access Token that has rights to read and write to the specified repository."
+    required: true
+  author:
+    description: "The author name."
+    required: true
+  commit-message:
+    description: "Git commit message."
+    required: true
+  repository:
+    description: "The repository that contains the HCL variable."
+    required: true
+  branch-name:
+    description: "Repository branch name."
+    required: true
+  file-path:
+    description: "The path to a file."
+    required: true
+  variable:
+    description: "The variable that shall be overridden."
+    required: false
+  value:
+    description: "The new value that will be assigned to the variable."
+    required: false
+
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        repository: ${{ inputs.repository }}
+        token: ${{ inputs.token }}
+
+    - name: Update HCL variable
+      shell: bash
+      run: |
+        hcledit attribute set -f repository/${{inputs.file-path}} -u ${{inputs.variable}} '"${{inputs.value}}"'
+
+    - name: Commit and push changes
+      uses: devops-infra/action-commit-push@master
+      with:
+        github_token: ${{ inputs.token }}
+        commit_prefix: "[HCL-AUTO-COMMIT]"
+        commit_message: ${{ inputs.commit-message }}
+        target_branch: ${{ inputs.branch-name }}
+
+    - name: Create pull request
+      uses: devops-infra/action-pull-request@master
+      with:
+        github_token: ${{ inputs.token }}
+        body: "**Automated pull request**<br><br>This PR was automatically created by the HCL Update GitHub Action."
+        title: ${{ github.event.commits[0].message }}
+        target_branch: ${{ inputs.branch-name }}
+        label: automatic
