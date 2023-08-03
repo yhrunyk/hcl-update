@@ -39,6 +39,14 @@ runs:
       shell: bash
       run: |
         hcledit attribute set -f ${{inputs.file-path}} -u ${{inputs.variable}} '"${{inputs.value}}"'
+
+    - name: Commit and push changes
+      uses: devops-infra/action-commit-push@master
+      with:
+        github_token: ${{ inputs.token }}
+        commit_prefix: "[HCL-AUTO-COMMIT]"
+        commit_message: ${{ inputs.commit-message }}
+        target_branch: ${{ inputs.branch-name }}
       
     - name: Create Pull Request
       id: cpr
@@ -57,13 +65,6 @@ runs:
         labels: |
           automated pr
 
-    #- name: Commit and push changes
-    #  uses: devops-infra/action-commit-push@master
-    #  with:
-    #    github_token: ${{ inputs.token }}
-    #    commit_prefix: "[HCL-AUTO-COMMIT]"
-    #    commit_message: ${{ inputs.commit-message }}
-    #    target_branch: ${{ inputs.branch-name }}
 #
     #- name: Create pull request
     #  uses: devops-infra/action-pull-request@master
