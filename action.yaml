@@ -47,7 +47,7 @@ runs:
         token: ${{ inputs.token }}
         commit-message: ${{ inputs.commit-message }}
         committer: GitHub <noreply@github.com>
-        author: ${{ inputs.actor }} <${{ inputs.actor }}@users.noreply.github.com>
+        author: ${{ inputs.author }} <${{ inputs.author }}@users.noreply.github.com>
         signoff: false
         branch: ${{ inputs.branch-name }}
         delete-branch: true
