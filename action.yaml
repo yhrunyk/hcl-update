@@ -38,7 +38,7 @@ runs:
     - name: Update HCL variable
       shell: bash
       run: |
-        hcledit attribute set -f repository/${{inputs.file-path}} -u ${{inputs.variable}} '"${{inputs.value}}"'
+        hcledit attribute set -f ${{inputs.file-path}} -u ${{inputs.variable}} '"${{inputs.value}}"'
 
     - name: Commit and push changes
       uses: devops-infra/action-commit-push@master
