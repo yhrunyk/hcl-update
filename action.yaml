@@ -51,25 +51,8 @@ runs:
         signoff: false
         branch: ${{ inputs.branch-name }}
         delete-branch: true
-        title: ${{ github.event.commits[0].message }}
+        title: '[HLC-Update] Update hcl attributes'
         body: |
           "**Automated pull request**<br><br>This PR was automatically created by the HCL Update GitHub Action."
         labels: |
           automated pr
-
-    #- name: Commit and push changes
-    #  uses: devops-infra/action-commit-push@master
-    #  with:
-    #    github_token: ${{ inputs.token }}
-    #    commit_prefix: "[HCL-AUTO-COMMIT]"
-    #    commit_message: ${{ inputs.commit-message }}
-    #    target_branch: ${{ inputs.branch-name }}
-#
-    #- name: Create pull request
-    #  uses: devops-infra/action-pull-request@master
-    #  with:
-    #    github_token: ${{ inputs.token }}
-    #    body: "**Automated pull request**<br><br>This PR was automatically created by the HCL Update GitHub Action."
-    #    title: c
-    #    target_branch: ${{ inputs.branch-name }}
-    #    label: automatic
